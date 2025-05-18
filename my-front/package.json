@@ -1,0 +1,22 @@
+{
+  "name": "ai-research-assistant-simplified",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "element-plus": "^2.3.4",
+    "pinia": "^2.0.36",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.1",
+    "sass": "^1.62.1",
+    "vite": "^4.3.4"
+  }
+}
