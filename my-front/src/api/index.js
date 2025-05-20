@@ -22,7 +22,12 @@ api.interceptors.response.use(
 // 聊天相关API
 export const chatApi = {
   // 发送消息
-  sendMessage(content) {
-    return api.post('/chat/message', { content })
+  sendMessage(content, mode = "1", kb_names = []) {
+    return api.post('/chat/message', { content, mode, kb_names })
+  },
+  
+  // 获取知识库列表
+  getKnowledgeBaseNames() {
+    return api.get('/get_knowledge_base_names')
   }
 }

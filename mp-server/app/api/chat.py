@@ -8,6 +8,10 @@ router = APIRouter()
 model_service = MockModel()
 
 
+@router.get("/test")
+def test_endpoint():
+    return {"status": "new API works"}
+
 @router.post("/message", response_model=ChatMessageResponse)
 async def send_message(
         message: ChatMessageCreate
