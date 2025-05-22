@@ -1,0 +1,709 @@
+{
+  "data": [
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": -1,
+      "create_date": "Fri, 09 May 2025 09:43:12 GMT",
+      "create_time": 1746783792032,
+      "created_by": "79ace74e6b2e11efbd890242ac180005",
+      "description": null,
+      "doc_num": 2,
+      "embd_id": "BAAI/bge-m3",
+      "id": "05bd6e282cba11f094620242ac120038",
+      "kb_type": "text",
+      "language": "Chinese",
+      "name": "lll",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "79ace74e6b2e11efbd890242ac180005",
+      "token_num": -1,
+      "update_date": "Tue, 20 May 2025 03:19:56 GMT",
+      "update_time": 1747711196560,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Mon, 14 Apr 2025 03:33:24 GMT",
+      "create_time": 1744601604529,
+      "created_by": "1",
+      "description": "远海源域相关知识库",
+      "doc_num": 8,
+      "embd_id": "BAAI/bge-m3",
+      "id": "38a16a6618e111f08b2a0242ac120026",
+      "kb_type": "text",
+      "language": "Chinese",
+      "name": "远海远域",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": "Wed, 16 Apr 2025 06:00:54 GMT",
+      "update_time": 1744783254582,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Thu, 03 Apr 2025 01:15:30 GMT",
+      "create_time": 1743642930921,
+      "created_by": "1",
+      "description": null,
+      "doc_num": 1,
+      "embd_id": "BAAI/bge-m3",
+      "id": "22a1b510102911f09c610242ac120026",
+      "kb_type": "text",
+      "language": "Chinese",
+      "name": "aa",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": "Fri, 11 Apr 2025 08:28:56 GMT",
+      "update_time": 1744360136086,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Tue, 04 Mar 2025 03:09:47 GMT",
+      "create_time": 1741057787482,
+      "created_by": "1",
+      "description": null,
+      "doc_num": 0,
+      "embd_id": "BAAI/bge-m3",
+      "id": "21115b50f8a611ef81550242ac12000c",
+      "kb_type": "image",
+      "language": "Chinese",
+      "name": "测试图片库",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": "Tue, 04 Mar 2025 03:09:55 GMT",
+      "update_time": 1741057795954,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Sat, 04 Jan 2025 08:26:58 GMT",
+      "create_time": 1735979218576,
+      "created_by": "be8aa3907ec711ef82170242ac11002c",
+      "description": null,
+      "doc_num": 3,
+      "embd_id": "BAAI/bge-m3",
+      "id": "aa1c9f18ca7511ef91410242ac12003f",
+      "kb_type": "text",
+      "language": "Chinese",
+      "name": "项目溯源",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "be8aa3907ec711ef82170242ac11002c",
+      "token_num": 0,
+      "update_date": "Fri, 14 Mar 2025 01:11:46 GMT",
+      "update_time": 1741914706060,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Wed, 25 Dec 2024 13:08:00 GMT",
+      "create_time": 1735132080366,
+      "created_by": "be8aa3907ec711ef82170242ac11002c",
+      "description": null,
+      "doc_num": 3,
+      "embd_id": "BAAI/bge-m3",
+      "id": "446419b4c2c111ef96e50242ac12003f",
+      "kb_type": "text",
+      "language": "Chinese",
+      "name": "agent",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "delimiter": "\\n!?;。；！？",
+        "layout_recognize": true,
+        "raptor": {
+          "use_raptor": false
+        }
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "be8aa3907ec711ef82170242ac11002c",
+      "token_num": 0,
+      "update_date": "Mon, 13 Jan 2025 08:42:35 GMT",
+      "update_time": 1736757755784,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 0,
+      "create_date": "Mon, 23 Dec 2024 01:55:26 GMT",
+      "create_time": 1734918926952,
+      "created_by": "59a6ec848d2911ef86fd0242ac110021",
+      "description": null,
+      "doc_num": 0,
+      "embd_id": "BAAI/bge-m3",
+      "id": "fb0e5410c0d011efaf8a0242ac12003f",
+      "kb_type": "graph",
+      "language": "Chinese",
+      "name": "测试图谱知识库1",
+      "parser_config": {
+        "chunk_token_num": 8192,
+        "delimiter": "\\n!?;。；！？",
+        "entity_types": [
+          "organization",
+          "person",
+          "location",
+          "event",
+          "time"
+        ]
+      },
+      "parser_id": "knowledge_graph",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "59a6ec848d2911ef86fd0242ac110021",
+      "token_num": 0,
+      "update_date": "Mon, 06 Jan 2025 01:09:56 GMT",
+      "update_time": 1736125796612,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": "",
+      "chunk_num": 1,
+      "create_date": "Tue, 29 Oct 2024 00:42:02 GMT",
+      "create_time": 1730162522599,
+      "created_by": "1197252694457188352",
+      "description": null,
+      "doc_num": 0,
+      "embd_id": "BAAI/bge-m3",
+      "id": "9d2329a6958e11ef9a4a0242ac110013",
+      "kb_type": "graph",
+      "language": "Chinese",
+      "name": "图谱知识库",
+      "parser_config": {
+        "chunk_token_num": 128,
+        "layout_recognize": true
+      },
+      "parser_id": "knowledge_graph",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": "Tue, 29 Oct 2024 08:29:18 GMT",
+      "update_time": 1730190558754,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 1203288,
+      "embd_id": "",
+      "id": "jsqk",
+      "kb_type": "text",
+      "language": "English",
+      "name": "军事期刊",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 5205,
+      "embd_id": "",
+      "id": "zbbk",
+      "kb_type": "text",
+      "language": "English",
+      "name": "装备百科",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 18686,
+      "embd_id": "",
+      "id": "zbtt",
+      "kb_type": "text",
+      "language": "English",
+      "name": "装备头条",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 183888,
+      "embd_id": "",
+      "id": "weixin",
+      "kb_type": "text",
+      "language": "English",
+      "name": "微信",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 12434,
+      "embd_id": "",
+      "id": "wlxxck",
+      "kb_type": "text",
+      "language": "English",
+      "name": "网络信息参考",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 2574,
+      "embd_id": "",
+      "id": "fzbg_txt",
+      "kb_type": "text",
+      "language": "English",
+      "name": "科技发展报告",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 293407,
+      "embd_id": "",
+      "id": "xhs-gfjs",
+      "kb_type": "text",
+      "language": "English",
+      "name": "新华社-国防军事",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 60106,
+      "embd_id": "",
+      "id": "dongtai-xw",
+      "kb_type": "text",
+      "language": "English",
+      "name": "动态 - 新闻",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 286236,
+      "embd_id": "",
+      "id": "dongtai-ckxx",
+      "kb_type": "text",
+      "language": "English",
+      "name": "动态 - 参考消息",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 141745,
+      "embd_id": "",
+      "id": "dongtai-ckzl",
+      "kb_type": "text",
+      "language": "English",
+      "name": "动态 - 参考资料",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 82744,
+      "embd_id": "",
+      "id": "dongtai-fwkx",
+      "kb_type": "text",
+      "language": "English",
+      "name": "动态 - 防务快讯",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 0,
+      "embd_id": "",
+      "id": "新闻媒体",
+      "kb_type": "text",
+      "language": "English",
+      "name": "新闻媒体",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 531,
+      "embd_id": "",
+      "id": "时政热点",
+      "kb_type": "text",
+      "language": "English",
+      "name": "时政热点",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    },
+    {
+      "app_label": null,
+      "avatar": null,
+      "chunk_num": 1,
+      "create_date": "Thu, 10 Oct 2024 08:31:15 GMT",
+      "create_time": 1728549075599,
+      "created_by": "",
+      "description": null,
+      "doc_num": 15187,
+      "embd_id": "",
+      "id": "基本情况积累",
+      "kb_type": "text",
+      "language": "English",
+      "name": "基本情况积累",
+      "parser_config": {
+        "pages": [
+          [
+            1,
+            1000000
+          ]
+        ]
+      },
+      "parser_id": "naive",
+      "permission": "public",
+      "similarity_threshold": 0.2,
+      "status": "1",
+      "tenant_id": "public",
+      "token_num": 0,
+      "update_date": null,
+      "update_time": null,
+      "vector_similarity_weight": 0.3
+    }
+  ],
+  "retcode": 0,
+  "retmsg": "success"
+}
