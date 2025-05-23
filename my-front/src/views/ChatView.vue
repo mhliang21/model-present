@@ -1,7 +1,5 @@
 <template>
   <div class="chat-view">
-    <!-- 移除标题区域 -->
-    
     <div class="main-container" :class="{ 'chat-started': hasStartedChat }">
       <!-- 主对话区域 -->
       <div class="chat-container">
@@ -17,7 +15,7 @@
                 <el-input
                   v-model="inputMessage"
                   type="textarea"
-                  :rows="8"
+                  :rows="5"
                   :placeholder="inputPlaceholder"
                   resize="none"
                   @keydown="handleKeyDown"
@@ -27,6 +25,31 @@
                 
                 <div class="input-actions">
                   <div class="input-tools">
+                    <!-- 知识库选择 -->
+                    <el-popover
+                      placement="top"
+                      :width="300"
+                      trigger="click"
+                      popper-class="kb-popover"
+                    >
+                      <template #reference>
+                        <el-button class="tool-button">
+                          <span>知识库</span>
+                          <el-icon><ArrowDown /></el-icon>
+                        </el-button>
+                      </template>
+                      <div class="kb-list">
+                        <div 
+                          v-for="kb in knowledgeBases" 
+                          :key="kb"
+                          :class="['kb-item', { active: isKnowledgeBaseSelected(kb) }]"
+                          @click="toggleKnowledgeBase(kb)"
+                        >
+                          {{ kb }}
+                        </div>
+                      </div>
+                    </el-popover>
+
                     <!-- 推理模式选择 -->
                     <el-popover
                       placement="top"
@@ -52,31 +75,11 @@
                         </div>
                       </div>
                     </el-popover>
-                    
-                    <!-- 知识库选择 -->
-                    <el-popover
-                      placement="top"
-                      :width="300"
-                      trigger="click"
-                      popper-class="kb-popover"
-                    >
-                      <template #reference>
-                        <el-button class="tool-button">
-                          <span>知识库</span>
-                          <el-icon><ArrowDown /></el-icon>
-                        </el-button>
-                      </template>
-                      <div class="kb-list">
-                        <div 
-                          v-for="kb in knowledgeBases" 
-                          :key="kb"
-                          :class="['kb-item', { active: isKnowledgeBaseSelected(kb) }]"
-                          @click="toggleKnowledgeBase(kb)"
-                        >
-                          {{ kb }}
-                        </div>
-                      </div>
-                    </el-popover>
+
+                    <!-- 上传文件工具按钮 -->
+                    <el-button class="tool-button">
+                      <el-icon><Paperclip /></el-icon>
+                    </el-button>
                   </div>
                   
                   <el-button 
@@ -226,7 +229,7 @@
                   </div>
                 </el-popover>
                 
-                <!-- 其他工具按钮 -->
+                <!-- 上传文件工具按钮 -->
                 <el-button class="tool-button">
                   <el-icon><Paperclip /></el-icon>
                 </el-button>
@@ -609,7 +612,7 @@ onMounted(async () => {
 
 /* 优化：扩大初始输入框尺寸和样式 */
 .initial-input-container {
-  width: 80%;
+  width: 100%;
   max-width: 1800px;
   margin: 0 auto;
 }
@@ -694,7 +697,7 @@ onMounted(async () => {
 .message-actions {
   margin-top: 4px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .copy-button {
