@@ -39,6 +39,40 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
   
+  // 更新消息的思考过程（用于结构化流式响应）
+  function updateMessageThinking(messageId, content, append = true) {
+    const message = messages.value.find(msg => msg.id === messageId)
+    if (message) {
+      if (!message.thinking) {
+        message.thinking = content
+      } else if (append) {
+        message.thinking += content
+      } else {
+        message.thinking = content
+      }
+    }
+  }
+  
+  // 更新消息的搜索结果（用于结构化流式响应）
+  function updateMessageSearchResults(messageId, searchResults) {
+    const message = messages.value.find(msg => msg.id === messageId)
+    if (message) {
+      message.searchResults = searchResults
+    }
+  }
+  
+  // 更新消息的搜索查询（用于结构化流式响应）
+  function updateMessageSearchQueries(messageId, query, append = true) {
+    const message = messages.value.find(msg => msg.id === messageId)
+    if (message) {
+      if (!message.searchQueries) {
+        message.searchQueries = [query]
+      } else if (append) {
+        message.searchQueries.push(query)
+      }
+    }
+  }
+  
   // 发送消息
   async function sendMessage(content) {
     try {
@@ -87,47 +121,108 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
   
-  // 发送流式消息
+  // 发送流式消息 - 更新为支持结构化JSON流式响应
   async function sendStreamingMessage(content, mode, knowledgeBases, messageId, onChunk) {
     try {
       loading.value = true
       error.value = null
       
-      // 调用API发送流式消息
+      // 初始化消息的额外字段
+      const message = messages.value.find(msg => msg.id === messageId)
+      if (message) {
+        message.thinking = ''
+        message.searchResults = []
+        message.searchQueries = []
+        message.inferenceSteps = []
+      }
+      
+      // 调用API发送流式消息，传递结构化处理回调
       await chatApi.sendStreamingMessage(
         content,
         mode,
         knowledgeBases,
-        onChunk
-      )
-      
-      // 流式响应结束后，更新消息的额外信息（如检索结果）
-      // 这里模拟一些检索结果，实际应该从后端获取
-      if (mode === "2" || mode === "3") {
-        const message = messages.value.find(msg => msg.id === messageId)
-        if (message) {
-          // 模拟检索结果
-          message.searchResults = [
-            {"文档1": "内容1-----------------------------------"},
-            {"文档2": "内容2-----------------------------------"},
-            {"文档3": "内容3-----------------------------------"}
-          ]
+        (chunkContent, metadata) => {
+          // 根据消息类型处理不同的内容
+          if (!metadata || !metadata.type) {
+            // 兼容旧版纯文本流
+            if (onChunk && typeof onChunk === 'function') {
+              onChunk(chunkContent)
+            }
+            return
+          }
           
-          // 模式3还需要添加推理步骤和搜索查询
-          if (mode === "3") {
-            message.inferenceSteps = [
-              "推理结果1-----------------------------------",
-              "推理结果2-----------------------------------",
-              "推理结果3-----------------------------------"
-            ]
-            message.searchQueries = [
-              "检索的query1-----------------------------------",
-              "检索的query2-----------------------------------",
-              "检索的query3-----------------------------------"
-            ]
+          switch (metadata.type) {
+            case 'thinking':
+              // 更新思考过程
+              updateMessageThinking(messageId, chunkContent, true)
+              // 同时更新推理步骤（用于模式3）
+              if (metadata.turn && message) {
+                if (!message.inferenceSteps) {
+                  message.inferenceSteps = []
+                }
+                
+                if (message.inferenceSteps.length < metadata.turn) {
+                  message.inferenceSteps.push(chunkContent)
+                } else {
+                  message.inferenceSteps[metadata.turn - 1] += chunkContent
+                }
+              }
+              break
+              
+            case 'answer':
+              // 更新回答内容
+              if (onChunk && typeof onChunk === 'function') {
+                onChunk(chunkContent)
+              }
+              break
+              
+            case 'system':
+              // 系统消息，可以选择性显示
+              console.log('系统消息:', chunkContent)
+              break
+              
+            case 'search_results':
+              // 更新搜索结果
+              if (metadata.documents) {
+                updateMessageSearchResults(messageId, metadata.documents)
+              }
+              break
+              
+            case 'search_query':
+              // 更新搜索查询
+              updateMessageSearchQueries(messageId, chunkContent)
+              break
+              
+            case 'final_answer':
+              // 最终答案
+              if (onChunk && typeof onChunk === 'function') {
+                onChunk(chunkContent)
+              }
+              
+              // 更新额外信息
+              if (metadata.search_queries) {
+                message.searchQueries = metadata.search_queries
+              }
+              
+              if (metadata.search_results) {
+                message.searchResults = metadata.search_results
+              }
+              break
+              
+            case 'error':
+              // 错误信息
+              error.value = chunkContent
+              console.error('流式响应错误:', chunkContent)
+              break
+              
+            default:
+              // 未知类型，直接传递
+              if (onChunk && typeof onChunk === 'function') {
+                onChunk(chunkContent)
+              }
           }
         }
-      }
+      )
       
       return true
     } catch (err) {
@@ -172,6 +267,10 @@ export const useChatStore = defineStore('chat', () => {
   function startNewChat() {
     // 清空消息
     clearMessages()
+    // 清空选中的知识库
+    clearSelectedKnowledgeBases()
+    // 重置推理模式为默认值
+    setInferenceMode("1")
     // 关闭检索结果
     return true
   }
@@ -187,6 +286,9 @@ export const useChatStore = defineStore('chat', () => {
     fetchKnowledgeBases,
     addMessage,
     updateMessageContent,
+    updateMessageThinking,
+    updateMessageSearchResults,
+    updateMessageSearchQueries,
     sendMessage,
     sendStreamingMessage,
     clearMessages,
