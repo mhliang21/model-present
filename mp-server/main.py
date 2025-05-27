@@ -7,9 +7,11 @@ import logging
 import json
 import os
 import asyncio
+from starlette.concurrency import iterate_in_threadpool
 
-# 导入知识库获取方法
+# 导入知识库获取方法和推理模式
 from app.method import fetch_knowledge_bases
+from app.models import inference_mode1, inference_mode2, inference_mode3
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -41,41 +43,6 @@ async def log_requests(request: Request, call_next):
     return response
 
 
-# 仅测试使用，将检索结果以列表的形式返回
-search_results = [{"文档1": "内容1-----------------------------------"},
-                  {"文档2": "内容2-----------------------------------"},
-                  {"文档3": "内容3"}]
-
-# 仅测试使用，将推理结果以列表的形式返回
-inference_results1 = "推理结果1-----------------------------------"
-inference_results2 = "推理结果2-----------------------------------"
-
-# 推理模式3
-# 仅测试使用，生成自己检索的query
-search_query1 = "检索的query1-----------------------------------"
-search_query2 = "检索的query2-----------------------------------"
-search_query3 = "检索的query3-----------------------------------"
-
-# 生成检索结果
-search_results1 = [{"文档1": "内容1-----------------------------------"},
-                   {"文档2": "内容2-----------------------------------"},
-                   {"文档3": "内容3----------------------------------"}]
-search_results2 = [{"文档1": "内容1-----------------------------------"},
-                   {"文档2": "内容2-----------------------------------"},
-                   {"文档3": "内容3"}]
-search_results3 = [{"文档1": "内容1-----------------------------------"},
-                   {"文档2": "内容2-----------------------------------"},
-                   {"文档3": "内容3-----------------------------------"}]
-
-# 3次推理
-mode3_thinking_results1 = "推理结果1-----------------------------------"
-mode3_thinking_results2 = "推理结果2-----------------------------------"
-mode3_thinking_results3 = "推理结果3-----------------------------------"
-
-# 仅测试使用，生成的最终答案
-final_answer1 = "最终答案-----------------------------------"
-
-
 # 请求模型
 class InferenceRequest(BaseModel):
     mode: str
@@ -100,7 +67,7 @@ async def get_knowledge_base_names():
     """
     try:
         # 使用fetch_knowledge_bases方法获取知识库列表
-        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases("knowledge_fixed_base.json")
+        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases()
 
         # 提取知识库名称
         kb_names = [kb["name"] for kb in kb_list]
@@ -119,7 +86,7 @@ async def get_knowledge_bases():
     """
     try:
         # 使用fetch_knowledge_bases方法获取知识库列表
-        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases("knowledge_fixed_base.json")
+        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases()
 
         # 增强知识库信息
         knowledge_bases = []
@@ -143,7 +110,7 @@ async def get_knowledge_base(knowledge_id: str):
     """
     try:
         # 使用fetch_knowledge_bases方法获取知识库列表
-        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases("knowledge_fixed_base.json")
+        kb_list = await fetch_knowledge_bases.fetch_knowledge_bases()
 
         # 查找指定ID的知识库
         kb = next((kb for kb in kb_list if kb["id"] == knowledge_id), None)
@@ -167,7 +134,7 @@ async def get_knowledge_base(knowledge_id: str):
         raise HTTPException(status_code=500, detail=f"获取知识库详情失败: {str(e)}")
 
 
-# 第二个服务根据用户选择的推理模式，来使用不同推理类
+# 推理接口 - 根据用户选择的推理模式，使用不同推理类
 @app.post("/api/inference")
 async def inference(request: InferenceRequest):
     mode = request.mode
@@ -176,34 +143,51 @@ async def inference(request: InferenceRequest):
 
     logger.info(f"inference: mode={mode}, query={query}, kb_names={kb_names_list}")
 
-    if mode == "1":
-        # 不使用知识库，直接使用大模型进行推理
-        return {"inference_results": inference_results1}
-    elif mode == "2":
-        # 使用知识库，进行一次性推理
-        # 假如使用了推理模式2，前端需要要求用户必须至少选择一个知识库
-        # 假如用户没有选择知识库，则返回错误信息
-        if not kb_names_list:
-            return {"error": "请至少选择一个知识库"}  # 修改：统一使用error字段
-        # 先根据用户选择的知识库，进行检索
-        # 再根据检索结果，进行推理
-        # 最后返回检索结果和推理结果
-        return {"search_results": search_results,
-                "inference_results": inference_results2}
-    elif mode == "3":
-        # 使用知识库，进行边推理边检索
-        # 假如使用了推理模式3，前端需要要求用户必须至少选择一个知识库
-        # 假如用户没有选择知识库，则返回错误信息
-        if not kb_names_list:
-            return {"error": "请至少选择一个知识库"}  # 修改：统一使用error字段
-        # 先不进行检索，还是由大模型经过推理以后生成检索的query
-        # 返回的是3次推理思考结果，3次搜索词，3次检索结果，1次最终答案
-        return {"thinking_results": [mode3_thinking_results1, mode3_thinking_results2, mode3_thinking_results3],
-                "search_query": [search_query1, search_query2, search_query3],
-                "search_results": [search_results1, search_results2, search_results3],
-                "final_answer": final_answer1}
-    else:
-        return {"error": f"不支持的推理模式: {mode}"}  # 修改：统一使用error字段
+    try:
+        if mode == "1":
+            # 模式1：直接推理
+            # 使用同步生成器，需要转换为异步
+            async def async_generator():
+                for chunk in inference_mode1.vllm_stream_generator(query):
+                    yield chunk
+
+            return StreamingResponse(async_generator(), media_type="application/x-ndjson")
+
+        elif mode == "2":
+            # 模式2：知识库增强
+            if not kb_names_list:
+                return {"error": "请至少选择一个知识库"}
+
+            # 先获取知识库内容
+            kb_result = inference_mode2.retrieve_knowledge(query, kb_names_list)
+            if not kb_result:
+                return {"error": "知识库检索失败"}
+
+            # 使用同步生成器，需要转换为异步
+            async def async_generator():
+                for chunk in inference_mode2.model_stream_generator(kb_result["context"], query):
+                    yield chunk
+
+            return StreamingResponse(async_generator(), media_type="application/x-ndjson")
+
+        elif mode == "3":
+            # 模式3：迭代推理
+            if not kb_names_list:
+                return {"error": "请至少选择一个知识库"}
+
+            # 使用同步生成器，需要转换为异步
+            async def async_generator():
+                for chunk in inference_mode3.mode3_stream_generator(query, kb_names_list):
+                    yield chunk
+
+            return StreamingResponse(async_generator(), media_type="application/x-ndjson")
+
+        else:
+            return {"error": f"不支持的推理模式: {mode}"}
+
+    except Exception as e:
+        logger.error(f"推理过程发生错误: {str(e)}")
+        return {"error": f"推理失败: {str(e)}"}
 
 
 # 聊天接口 - 修改路径以匹配前端
@@ -221,32 +205,81 @@ async def send_message(message: ChatMessageRequest):
         kb_names=message.kb_names
     )
 
-    result = await inference(inference_request)
+    # 由于推理接口现在返回流式响应，需要收集完整响应
+    try:
+        response = await inference(inference_request)
 
-    # 检查是否有错误
-    if "error" in result:
-        return {"error": result["error"]}
+        # 检查是否有错误（非流式响应）
+        if isinstance(response, dict) and "error" in response:
+            return {"error": response["error"]}
 
-    # 根据推理模式返回不同的响应格式
-    if message.mode == "1":
-        return {"response": result.get("inference_results", "无法获取推理结果")}
-    elif message.mode == "2":
-        return {
-            "response": result.get("inference_results", "无法获取推理结果"),
-            "search_results": result.get("search_results", [])
-        }
-    elif message.mode == "3":
-        return {
-            "response": result.get("final_answer", "无法获取最终答案"),
-            "inference_steps": result.get("inference_results", []),
-            "search_queries": result.get("search_query", []),
-            "search_results": result.get("search_results", [])
-        }
-    else:
-        return {"error": "不支持的推理模式"}
+        # 处理流式响应
+        if isinstance(response, StreamingResponse):
+            # 收集完整响应
+            full_response = ""
+            search_results = []
+            search_queries = []
+            inference_steps = []
+            final_answer = ""
+
+            async for chunk in response.body_iterator:
+                try:
+                    chunk_str = chunk.decode('utf-8').strip()
+                    if not chunk_str:
+                        continue
+
+                    # 处理换行分隔的JSON
+                    for line in chunk_str.split('\n'):
+                        if not line.strip():
+                            continue
+
+                        data = json.loads(line)
+
+                        # 根据类型处理
+                        if data["type"] == "answer":
+                            full_response += data.get("content", "")
+                        elif data["type"] == "final_answer":
+                            final_answer = data.get("content", "")
+                        elif data["type"] == "search_results":
+                            if "documents" in data:
+                                search_results.append(data["documents"])
+                        elif data["type"] == "search_query":
+                            search_queries.append(data.get("content", ""))
+                        elif data["type"] == "thinking":
+                            if "turn" in data:
+                                # 确保有足够的元素
+                                while len(inference_steps) < data["turn"]:
+                                    inference_steps.append("")
+                                inference_steps[data["turn"] - 1] += data.get("content", "")
+
+                except Exception as e:
+                    logger.error(f"处理流式响应块时出错: {str(e)}")
+
+            # 根据推理模式返回不同的响应格式
+            if message.mode == "1":
+                return {"response": full_response or "无法获取推理结果"}
+            elif message.mode == "2":
+                return {
+                    "response": full_response or "无法获取推理结果",
+                    "search_results": search_results[0] if search_results else []
+                }
+            elif message.mode == "3":
+                return {
+                    "response": final_answer or full_response or "无法获取最终答案",
+                    "inference_steps": inference_steps,
+                    "search_queries": search_queries,
+                    "search_results": search_results
+                }
+
+        # 兜底返回
+        return {"error": "处理响应时出错"}
+
+    except Exception as e:
+        logger.error(f"处理聊天消息时出错: {str(e)}")
+        return {"error": f"处理失败: {str(e)}"}
 
 
-# 流式聊天接口 - 新增前端需要的接口
+# 流式聊天接口
 @app.post("/api/chat/stream")
 async def stream_message(message: ChatMessageRequest):
     """
@@ -258,26 +291,30 @@ async def stream_message(message: ChatMessageRequest):
     if (message.mode == "2" or message.mode == "3") and not message.kb_names:
         return {"error": "请至少选择一个知识库"}
 
-    async def generate_stream():
-        # 模拟流式响应
-        if message.mode == "1":
-            # 模式1：直接推理
-            response_text = inference_results1
-        elif message.mode == "2":
-            # 模式2：知识库增强
-            response_text = inference_results2
-        else:
-            # 模式3：迭代推理
-            response_text = final_answer1
+    try:
+        # 直接调用推理接口，返回流式响应
+        inference_request = InferenceRequest(
+            mode=message.mode,
+            query=message.content,
+            kb_names=message.kb_names
+        )
 
-        # 将响应文本分成多个块进行流式传输
-        chunk_size = 10  # 每个块的字符数
-        for i in range(0, len(response_text), chunk_size):
-            chunk = response_text[i:i + chunk_size]
-            yield chunk
-            await asyncio.sleep(0.1)  # 模拟处理延迟
+        response = await inference(inference_request)
 
-    return StreamingResponse(generate_stream(), media_type="text/plain")
+        # 检查是否有错误（非流式响应）
+        if isinstance(response, dict) and "error" in response:
+            return {"error": response["error"]}
+
+        # 返回流式响应
+        if isinstance(response, StreamingResponse):
+            return response
+
+        # 兜底返回
+        return {"error": "无法获取流式响应"}
+
+    except Exception as e:
+        logger.error(f"流式聊天处理失败: {str(e)}")
+        return {"error": f"流式处理失败: {str(e)}"}
 
 
 @app.get("/")
