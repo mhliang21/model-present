@@ -249,7 +249,7 @@
         </div>
       </div>
       
-      <!-- 右侧搜索结果区域 - 修复：优化检索结果展示逻辑 -->
+      <!-- 右侧搜索结果区域 -->
       <div v-if="showSearchResults && currentSearchResults.length > 0" class="search-results-sidebar">
         <div class="search-results-header">
           <h3>检索结果</h3>
@@ -321,17 +321,13 @@ const currentSearchResults = computed(() => {
   // 获取最后一条助手消息
   const lastAssistantMessage = [...messages.value].reverse().find(msg => !msg.isUser);
   
-  // 修复：确保搜索结果正确展示
   if (lastAssistantMessage?.searchResults && Array.isArray(lastAssistantMessage.searchResults)) {
-    // 如果有搜索结果，自动显示侧边栏
-    if (lastAssistantMessage.searchResults.length > 0 && !showSearchResults.value) {
-      showSearchResults.value = true;
-    }
     return lastAssistantMessage.searchResults;
   }
   
   return [];
 });
+
 
 // 监听搜索结果变化，有结果时自动显示侧边栏
 watch(currentSearchResults, (newResults) => {
@@ -344,6 +340,7 @@ watch(currentSearchResults, (newResults) => {
 const welcomeMessage = '下午好，张博士';
 const welcomeDescription = '欢迎使用智能研究助手';
 const inputPlaceholder = '尽管提问...';
+const userManuallyClosed = ref(false);
 
 // 推理模式选项
 const inferenceModes = [
@@ -366,6 +363,7 @@ const inferenceModes = [
 
 // 发送消息
 async function sendMessage() {
+  userManuallyClosed.value = false; // 重置手动关闭标记
   if (!inputMessage.value.trim() || loading.value) return;
   
   // 检查推理模式2和3是否选择了知识库
@@ -481,7 +479,8 @@ function copyMessageContent(content) {
 
 // 关闭搜索结果侧边栏
 function closeSearchResults() {
-  showSearchResults.value = false;
+  userManuallyClosed.value = true; // 标记用户手动关闭
+  showSearchResults.value = false; 
 }
 
 // 处理键盘事件
